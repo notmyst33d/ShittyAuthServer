@@ -1,61 +1,79 @@
 package me.mrletsplay.shittyauth.user;
 
+import java.util.UUID;
+
 import me.mrletsplay.mrcore.json.converter.JSONConstructor;
 import me.mrletsplay.mrcore.json.converter.JSONConvertible;
 import me.mrletsplay.mrcore.json.converter.JSONValue;
 import me.mrletsplay.shittyauth.textures.SkinType;
 
 public class UserData implements JSONConvertible {
-	
-	public static final String DEFAULT_SKIN = "https://textures.minecraft.net/texture/1a4af718455d4aab528e7a61f86fa25e6a369d1768dcb13f7df319a713eb810b";
-	
-	@JSONValue
-	private boolean hasCape;
-	
-	@JSONValue
-	private SkinType skinType;
-	
-	@JSONValue
-	private long skinLastChanged; // To update skin cache in client after change
-	
-	@JSONValue
-	private long capeLastChanged; // To update cape cache in client after change
-	
-	@JSONConstructor
-	public UserData() {
-		this.skinType = SkinType.STEVE;
-	}
-	
-	public void setHasCape(boolean hasCape) {
-		this.hasCape = hasCape;
-	}
-	
-	public boolean hasCape() {
-		return hasCape;
-	}
-	
-	public void setSkinType(SkinType skinType) {
-		this.skinType = skinType;
-	}
-	
-	public SkinType getSkinType() {
-		return skinType;
-	}
-	
-	public void setSkinLastChanged(long skinLastChanged) {
-		this.skinLastChanged = skinLastChanged;
-	}
-	
-	public long getSkinLastChanged() {
-		return skinLastChanged;
-	}
-	
-	public void setCapeLastChanged(long capeLastChanged) {
-		this.capeLastChanged = capeLastChanged;
-	}
-	
-	public long getCapeLastChanged() {
-		return capeLastChanged;
-	}
-	
+    @JSONValue
+    private boolean hasCape;
+
+    @JSONValue
+    private long skinLastChanged; // To update skin cache in client after change
+
+    @JSONValue
+    private String skinId;
+
+    @JSONValue
+    private long capeLastChanged; // To update cape cache in client after change
+
+    @JSONValue
+    private String capeId;
+
+    @JSONValue
+    private SkinType skinType;
+
+    @JSONConstructor
+    public UserData() {
+        this.skinId = "00000000-0000-0000-0000-000000000000";
+        this.capeId = "00000000-0000-0000-0000-000000000000";
+
+        this.skinType = SkinType.STEVE;
+        this.hasCape = false;
+    }
+
+    public boolean hasCape() {
+        return hasCape;
+    }
+
+    public void setHasCape(boolean hasCape) {
+        this.hasCape = hasCape;
+    }
+
+    public void setSkinType(SkinType skinType) {
+        this.skinType = skinType;
+    }
+
+    public SkinType getSkinType() {
+        return skinType;
+    }
+
+    public void setSkin(UUID skinId) {
+        this.skinLastChanged = System.currentTimeMillis();
+        this.skinId = skinId.toString();
+    }
+
+    public long getSkinLastChanged() {
+        return skinLastChanged;
+    }
+
+    public String getSkinId() {
+        return skinId;
+    }
+
+    public void setCape(UUID capeId) {
+        this.capeLastChanged = System.currentTimeMillis();
+        this.capeId = capeId.toString();
+    }
+
+    public long getCapeLastChanged() {
+        return capeLastChanged;
+    }
+
+    public String getCapeId() {
+        return capeId;
+    }
 }

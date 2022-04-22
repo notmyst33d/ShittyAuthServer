@@ -9,32 +9,34 @@ import me.mrletsplay.webinterfaceapi.http.document.HttpDocument;
 import me.mrletsplay.webinterfaceapi.webinterface.document.WebinterfaceDocumentProvider;
 
 public class ShittyAuthDocumentProvider extends WebinterfaceDocumentProvider {
-	
-	public static final ShittyAuthDocumentProvider INSTANCE = new ShittyAuthDocumentProvider();
-	
-	@Override
-	public HttpDocument getDocument(String path) {
-		if(path.startsWith(ProfilePage.PATH_PREFIX)) {
-			return ProfilePage.INSTANCE;
-		}
-		
-		if(path.startsWith(UserSkinDocument.PATH_PREFIX)) {
-			return UserSkinDocument.INSTANCE;
-		}
-		
-		if(path.startsWith(UserCapeDocument.PATH_PREFIX)) {
-			return UserCapeDocument.INSTANCE;
-		}
-		
-		if(path.startsWith(LegacyUserSkinDocument.PATH_PREFIX)) {
-			return LegacyUserSkinDocument.INSTANCE;
-		}
-		
-		if(path.startsWith(LegacyUserCapeDocument.PATH_PREFIX)) {
-			return LegacyUserCapeDocument.INSTANCE;
-		}
-		
-		return super.getDocument(path);
-	}
+    public static final ShittyAuthDocumentProvider INSTANCE = new ShittyAuthDocumentProvider();
 
+    @Override
+    public HttpDocument getDocument(String path) {
+        // Backwards compatibility with authlib-injector
+        if (path.startsWith(ProfilePage.PATH_PREFIX) || path.startsWith("/sessionserver" + ProfilePage.PATH_PREFIX)) {
+            if (path.startsWith("/sessionserver"))
+                ProfilePage.INSTANCE.isAuthlibInjector = true;
+
+            return ProfilePage.INSTANCE;
+        }
+
+        if (path.startsWith(UserSkinDocument.PATH_PREFIX)) {
+            return UserSkinDocument.INSTANCE;
+        }
+
+        if (path.startsWith(UserCapeDocument.PATH_PREFIX)) {
+            return UserCapeDocument.INSTANCE;
+        }
+
+        if (path.startsWith(LegacyUserSkinDocument.PATH_PREFIX)) {
+            return LegacyUserSkinDocument.INSTANCE;
+        }
+
+        if (path.startsWith(LegacyUserCapeDocument.PATH_PREFIX)) {
+            return LegacyUserCapeDocument.INSTANCE;
+        }
+
+        return super.getDocument(path);
+    }
 }
