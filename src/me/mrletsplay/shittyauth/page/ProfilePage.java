@@ -19,7 +19,6 @@ import me.mrletsplay.webinterfaceapi.webinterface.auth.impl.PasswordAuth;
 
 public class ProfilePage implements HttpDocument {
     // Backwards compatibility with authlib-injector
-    public boolean isAuthlibInjector = false;
     public static final String PATH_PREFIX = "/session/minecraft/profile/";
     public static final ProfilePage INSTANCE = new ProfilePage();
 
@@ -29,6 +28,7 @@ public class ProfilePage implements HttpDocument {
         HttpRequestContext ctx = HttpRequestContext.getCurrentContext();
 
         // Backwards compatibility with authlib-injector
+        boolean isAuthlibInjector = ctx.getClientHeader().getPath().toString().startsWith("/sessionserver");
         String uuid = ctx.getClientHeader().getPath().getDocumentPath().substring(isAuthlibInjector ? ("/sessionserver" + PATH_PREFIX).length() : PATH_PREFIX.length());
         if (!uuid.contains("-")) {
             uuid = UUIDHelper.parseShortUUID(uuid).toString();
@@ -55,7 +55,7 @@ public class ProfilePage implements HttpDocument {
         // TODO: signatureRequired (present with true if ?unsigned=false)
 
         UserData d = ShittyAuth.dataStorage.getUserData(acc.getID());
-        textures.put("textures", TexturesHelper.getTexturesObject(acc.getID(), d));
+        textures.put("textures", TexturesHelper.getTexturesObject(d));
         b.put("value", Base64.getEncoder().encodeToString(textures.toString().getBytes(StandardCharsets.UTF_8)));
         a.add(b);
         obj.put("properties", a);

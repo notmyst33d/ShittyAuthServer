@@ -15,9 +15,6 @@ public class ShittyAuthDocumentProvider extends WebinterfaceDocumentProvider {
     public HttpDocument getDocument(String path) {
         // Backwards compatibility with authlib-injector
         if (path.startsWith(ProfilePage.PATH_PREFIX) || path.startsWith("/sessionserver" + ProfilePage.PATH_PREFIX)) {
-            if (path.startsWith("/sessionserver"))
-                ProfilePage.INSTANCE.isAuthlibInjector = true;
-
             return ProfilePage.INSTANCE;
         }
 

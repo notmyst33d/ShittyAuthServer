@@ -54,7 +54,7 @@ public class HasJoinedPage implements HttpDocument {
         textures.put("profileName", acc.getConnection(PasswordAuth.ID).getUserName());
 
         UserData d = ShittyAuth.dataStorage.getUserData(acc.getID());
-        textures.put("textures", TexturesHelper.getTexturesObject(acc.getID(), d));
+        textures.put("textures", TexturesHelper.getTexturesObject(d));
 
         String b64Value = Base64.getEncoder().encodeToString(textures.toString().getBytes());
         b.put("value", b64Value);
