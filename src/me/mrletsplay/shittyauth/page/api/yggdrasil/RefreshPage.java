@@ -25,7 +25,7 @@ public class RefreshPage implements HttpDocument {
         Webinterface.getLogger().info("Somebody requested /refresh, please note that this is an experimental feature.");
 
         StoredAccessToken sTok = ShittyAuth.tokenStorage.getStoredToken(accessToken);
-        if (sTok == null || (clientToken != null && clientToken.equals(sTok.getClientToken()))) {
+        if (sTok == null) {
             ctx.getServerHeader().setStatusCode(HttpStatusCodes.ACCESS_DENIED_403);
             return;
         }
